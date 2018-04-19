@@ -1,0 +1,42 @@
+<div class="top-navigation-bar">
+  <h2 class="entity-title">Importación de datos</h2>
+</div>
+
+<div class="admin_content_wrapper" style="background-color: #f5f5f5; margin: 0">
+
+  <div class="row">
+    <div class="col-sm-12 col-md-10 col-md-offset-1">
+      <div class="block block-content-full">
+        <div class="block-header bg-gray-lighter">
+          <h3 class="block-title">Resultado</h3>
+        </div>
+        <div class="block-content block-content-narrow">
+          <div class="row">
+            <div class="col-sm-6 col-lg-6">
+              <a class="block block-bordered block-link-hover3 text-center" href="javascript:void(0)">
+                <div class="block-content block-content-full bg-gray-lighter border-b">
+                  <div class="h1 font-w700"><%=@import_ok.size%></div>
+                  <div class="h5 text-muted text-uppercase push-5-t">Importadas</div>
+                </div>
+              </a>
+            </div>
+            <div class="col-sm-6 col-lg-6">
+              <a class="block block-bordered block-link-hover3 text-center" href="javascript:void(0)">
+                <div class="block-content block-content-full bg-gray-lighter border-b">
+                  <div class="h1 font-w700"><%=@import_error.size%></div>
+                  <div class="h5 text-muted text-uppercase push-5-t">Errores</div>
+                </div>
+              </a>
+            </div>
+          </div>
+          <% unless @import_error.empty? %>
+          <pre>
+            <%= @import_error.inspect %>
+          </pre>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
