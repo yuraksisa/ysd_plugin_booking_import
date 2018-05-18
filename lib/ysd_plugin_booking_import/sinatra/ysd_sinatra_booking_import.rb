@@ -25,7 +25,7 @@ module Sinatra
         #
         # Import reservations Rent a car format
         #
-        app.post '/admin/booking/import/booking/reservations-single-product', :allowed_usergroups => ['booking_manager', 'staff'] do
+        app.post '/admin/booking/import/reservations', :allowed_usergroups => ['booking_manager', 'staff'] do
 
           file_name = params[:reservations_file][:filename]
           file = params[:reservations_file][:tempfile]
@@ -106,7 +106,7 @@ module Sinatra
                 booking.driver_driving_license_country = row['driver_driving_license_country']
               end
               unless booking.valid?
-                @import_error.store(row.index, {data: booking, error: booking.errors.full_messages})
+                @import_error.store($., {data: booking, error: booking.errors.full_messages})
                 next
               end
 
