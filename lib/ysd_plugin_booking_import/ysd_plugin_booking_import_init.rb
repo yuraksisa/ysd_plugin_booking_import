@@ -8,5 +8,6 @@ Plugins::SinatraAppPlugin.register :booking_import do
    version=     '0.1'
    hooker       YsdPluginBookingImport::BookingImportExtension
    sinatra_extension Sinatra::YitoExtension::BookingImport
+   sinatra_extension Sinatra::YitoExtension::BookingExport
   
 end   
