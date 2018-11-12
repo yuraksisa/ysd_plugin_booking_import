@@ -6,8 +6,8 @@ module Job
     def initialize(folder,
                    file_name, 
                    content_type,
-    	           sales_channel_code=nil, 
-    	           notify_by_email_on_finish=false, notification_email=nil)
+    	             sales_channel_code=nil, 
+    	             notify_by_email_on_finish=false, notification_email=nil)
       @folder = folder 
       @file_name = file_name
       @file_path = File.join(@folder, @file_name)
@@ -44,11 +44,21 @@ module Job
 
       begin
 	      CSV.open(@file_path, "wb") do |csv|
-	      	csv << ["name", "surname", "email", "phone"]
+          columns = ["name", "surname", "email", "phone", "address", "city", "state", "zip", "country"]
+          columns << "sales_channel"
+	      	csv << columns
 	      	@export_file.update(status: :in_progress)
 	        @customers.each do |customer|
+            address = ""
+            address << customer.street unless customer.street.nil?
+            address << " " unless customer.number.nil?
+            address << customer.number unless customer.number.nil?
+            address << " " unless customer.complement.nil?
+            address << customer.complement unless customer.complement.nil?
 	        	csv << [customer.customer_name, customer.customer_surname, 
-	        		    customer.customer_email, customer.customer_phone]
+	        		      customer.customer_email, customer.customer_phone,
+                    address, customer.city, customer.state, customer.zip, customer.country,
+                    customer.sales_channel_code]
 	        	processed += 1
 	        	@export_file.update(number_of_records: processed)
 	        end 	

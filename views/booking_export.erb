@@ -9,12 +9,26 @@
     <div class="col-sm-12 col-md-10 col-md-offset-1">
       <div class="block block-content-full">
         <div class="block-header bg-gray-lighter">
-          <h3 class="block-title">Exportación de clientes reservas</h3>
+          <h3 class="block-title">Exportación de clientes de las reservas</h3>
         </div>
         <div class="block-content block-content-narrow">
           <form name="reservations_import_form" id="reservations_import_form"
                 action="/admin/booking/export/customers"
-                method="POST" class="form-horizontal" enctype="multipart/form-data">            
+                method="POST" class="form-horizontal" enctype="multipart/form-data">
+            <% if @addon_sales_channels %>
+            <div class="form-group">
+                <label class="col-lg-12">Canal de venta</label>
+                <div class="col-lg-10">
+                  <select name="sales_channel" class="form-control">
+                    <option value="all">Todos</option>
+                    <option value="">Por defecto</option>
+                    <% @sales_channels.each do |sales_channel| %>
+                       <option value="<%=sales_channel.code%>"><%=sales_channel.name%></option>
+                    <% end %>
+                  </select>
+                </div>
+            </div>                
+            <% end %>
             <div class="form-group">
               <div class="col-md-9">
                 <input type="submit" class="btn btn-sm btn-primary" value="Exportar"/>
