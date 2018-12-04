@@ -29,26 +29,12 @@ module Sinatra
         #
         app.post '/admin/booking/export/customers', :allowed_usergroups => ['booking_manager', 'staff'] do
 
-          root_path = SystemConfiguration::Variable.get_value('data.folder_root','')
-
-          do_apply_server_name_folder = SystemConfiguration::Variable.get_value('data.use_server_name_folder','false').to_bool
-          file_name = "customers-#{DateTime.now.strftime('%Y%m%d%H%M%S')}.csv"
-          folder = if do_apply_server_name_folder
-		             File.join(root_path.empty? ? File.expand_path($0).gsub($0,'') : root_path, 
-		                       'data', 
-		          	           'export',
-		          	           RequestStore.store[:media_server_name_folder])  
-		           else
-		             File.join(root_path.empty? ? File.expand_path($0).gsub($0,'') : root_path, 
-		          	           'data', 
-		          	           'export')  
-		           end
+          folder = background_file_folder(RequestStore.store[:media_server_name_folder], 'export')
+          file_name = "customer-#{DateTime.now.strftime('%Y%m%d%H%M%S')}.csv"
 
           sales_channel = (params[:sales_channel] and !params[:sales_channel].empty?) ? params[:sales_channel] : nil
-          
           ::Delayed::Job.enqueue Job::BookingExportCustomerJob.new(folder, file_name, 'text/csv',
                                                                    sales_channel)
-
           flash[:notice] = 'El proceso de exportación se realizará en segundo plano. Compruebe <a href="/admin/integration/background-export-files">aquí</a>' 
           redirect '/admin/booking/export'
  
