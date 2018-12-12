@@ -37,19 +37,19 @@ module Sinatra
           created_from = Date.civil(year, 1, 1)
           created_to = Date.civil(year, 12, 31)
 
-          if params[:created_from]
+          if params[:from]
             begin
-              created_from = DateTime.strptime(params[:created_from], '%Y-%m-%d')
+              created_from = DateTime.strptime(params[:from], '%Y-%m-%d')
             rescue
-              logger.error("reservation created from date not valid #{params[:created_from]}")
+              logger.error("reservation created from date not valid #{params[:from]}")
             end
           end
 
-          if params[:created_to]
+          if params[:to]
             begin
-              created_to = DateTime.strptime(params[:created_to], '%Y-%m-%d')
+              created_to = DateTime.strptime(params[:to], '%Y-%m-%d')
             rescue
-              logger.error("reservation created to date not valid #{params[:created_to]}")
+              logger.error("reservation created to date not valid #{params[:to]}")
             end
           end
 
@@ -92,19 +92,19 @@ module Sinatra
           created_from = Date.civil(year, 1, 1)
           created_to = Date.civil(year, 12, 31)
 
-          if params[:created_from]
+          if params[:from]
             begin
-              created_from = DateTime.strptime(params[:created_from], '%Y-%m-%d')
+              created_from = DateTime.strptime(params[:from], '%Y-%m-%d')
             rescue
-              logger.error("reservation created from date not valid #{params[:created_from]}")
+              logger.error("reservation created from date not valid #{params[:from]}")
             end
           end
 
-          if params[:created_to]
+          if params[:to]
             begin
-              created_to = DateTime.strptime(params[:created_to], '%Y-%m-%d')
+              created_to = DateTime.strptime(params[:to], '%Y-%m-%d')
             rescue
-              logger.error("reservation created to date not valid #{params[:created_to]}")
+              logger.error("reservation created to date not valid #{params[:to]}")
             end
           end
 

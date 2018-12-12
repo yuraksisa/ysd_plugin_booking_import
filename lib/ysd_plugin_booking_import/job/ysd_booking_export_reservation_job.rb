@@ -115,7 +115,7 @@ module Job
                                                      ]
           )
 
-          @reservations = condition.build_datamapper(BookingDataSystem::Booking).all(:order => [:date_from, :time_from])
+          @reservations = condition.build_datamapper(BookingDataSystem::Booking).all(:order => [:creation_date])
 
 
     end 
