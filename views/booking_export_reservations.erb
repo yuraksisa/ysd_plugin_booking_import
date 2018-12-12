@@ -1,20 +1,39 @@
 <div class="top-navigation-bar">
-  <h2 class="entity-title">Exportación de datos</h2>
+  <h2 class="entity-title">Exportación de reservas</h2>
 </div>
 
 <div class="admin_content_wrapper" style="background-color: #f5f5f5; margin: 0">
   <br>
   <%= partial :flash_messages_admin %>
+  <!-- Reservation export -->
   <div class="row">
     <div class="col-sm-12 col-md-10 col-md-offset-1">
       <div class="block block-content-full">
         <div class="block-header bg-gray-lighter">
-          <h3 class="block-title">Exportación de clientes de las reservas</h3>
+          <h3 class="block-title">Exportación de reservas</h3>
         </div>
         <div class="block-content block-content-narrow">
-          <form name="reservations_import_form" id="reservations_import_form"
-                action="/admin/booking/export/customers"
+          <form name="reservations_export_form" id="reservations_export_form"
+                action="/admin/booking/export/reservations"
                 method="POST" class="form-horizontal" enctype="multipart/form-data">
+
+            <input type="hidden" name="from" id="from"/>
+            <input type="hidden" name="to" id="to"/>
+
+            <div class="form-group">
+                <label class="col-lg-12">Recibida desde</label>
+                <div class="col-lg-10">
+                  <input type="text" name="created_from" id="created_from" class="form-control" maxlength="10" autocomplete="off"/>
+                </div>
+            </div>  
+
+            <div class="form-group">
+                <label class="col-lg-12">Recibida hasta</label>
+                <div class="col-lg-10">
+                  <input type="text" name="created_to" id="created_to" class="form-control" maxlength="10" autocomplete="off"/>
+                </div>
+            </div>             
+
             <% if @addon_sales_channels %>
             <div class="form-group">
                 <label class="col-lg-12">Canal de venta</label>
@@ -31,12 +50,12 @@
             <% end %>
             <div class="form-group">
               <div class="col-md-9">
-                <input type="submit" class="btn btn-sm btn-primary" value="Exportar"/>
+                <input id="export_reservations" type="button" class="btn btn-sm btn-primary" value="Exportar"/>
               </div>
             </div>
           </form>
         </div>
       </div>
     </div>
-  </div>
+  </div>  
 </div>

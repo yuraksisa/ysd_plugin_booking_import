@@ -1,0 +1,90 @@
+require(['jquery', 
+         'jquery.ui', 'jquery.ui.datepicker-es','datejs'], function($) {
+
+
+  exportModel = {
+
+  };
+
+  exportController = {
+
+    searchButtonClick: function() {
+      var created_from = $('#created_from').datepicker('getDate').toString('yyyy-MM-dd');
+      var created_to = $('#created_to').datepicker('getDate').toString('yyyy-MM-dd');
+      $('#from').val(created_from);
+      $('#to').val(created_to);
+      $('#created_from').prop('disabled',true);
+      $('#created_to').prop('disabled',true);      
+      $('form[name=reservations_export_form]').submit();
+    }
+
+  };
+
+  exportView = {
+
+    getUrlVars : function() {
+          var vars = [], hash;
+          var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+          for(var i = 0; i < hashes.length; i++)
+          {
+             hash = hashes[i].split('=');
+             vars.push(hash[0]);
+             vars[hash[0]] = hash[1];
+          }
+          return vars;
+    },
+
+    init : function() {
+         var url_vars = this.getUrlVars();
+         var from = url_vars['from'] === undefined ? '<%=Date.today.strftime("%Y-%m-%d")%>' : decodeURIComponent(url_vars['from']);
+         var to = url_vars['to'] === undefined ? '<%=Date.today.strftime("%Y-%m-%d")%>' : decodeURIComponent(url_vars['to']);         
+         var created_from = $.datepicker.parseDate("yy-mm-dd", from);
+         var created_to = $.datepicker.parseDate("yy-mm-dd", to);
+
+         var locale = $.datepicker.regional["<%=session[:locale] || 'es'%>"];             
+         $.datepicker.setDefaults($.datepicker.regional["<%=session[:locale] || 'es'%>"]);
+
+         $('#created_from').datepicker(
+                 {controlType: 'select', 
+                  showTimezone: false, 
+                  useLocalTimezone: true, 
+                  numberOfMonths:1, 
+                  maxDate: new Date().add(365).days(),
+                  dateFormat: 'dd/mm/yy'},
+                  locale
+                  );
+         
+         if (created_from != null) {
+           $('#created_from').datepicker('setDate', created_from);
+         }
+         else {
+           $('#created_from').datepicker('setDate', '+0');
+         }
+
+         $('#created_to').datepicker(
+                 {controlType: 'select',
+                  showTimezone: false, 
+                  useLocalTimezone: true,
+                  numberOfMonths:1, 
+                  maxDate: new Date().add(365).days(),
+                  dateFormat: 'dd/mm/yy'},
+                  locale
+                  );         
+         if (created_to != null) {
+           $('#created_to').datepicker('setDate',created_to);
+         }
+         else {
+           $('#created_to').datepicker('setDate', '+0');
+         }
+
+         $('#export_reservations').bind('click', function() {
+           exportController.searchButtonClick();
+         });
+
+    }
+
+  };
+
+  exportView.init();
+
+});

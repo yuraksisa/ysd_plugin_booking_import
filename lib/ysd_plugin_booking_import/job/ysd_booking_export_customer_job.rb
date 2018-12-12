@@ -6,11 +6,15 @@ module Job
     def initialize(folder,
                    file_name, 
                    content_type,
+                   created_from,
+                   created_to,                   
     	             sales_channel_code=nil, 
     	             notify_by_email_on_finish=false, notification_email=nil)
       @folder = folder 
       @file_name = file_name
       @file_path = File.join(@folder, @file_name)
+      @created_from = created_from
+      @created_to = created_to      
       @content_type = content_type
       @sales_channel_code = sales_channel_code
       @notification_email = notification_email
@@ -27,7 +31,6 @@ module Job
       FileUtils.mkdir_p(@folder)
 
       now = DateTime.now
-      @customers = BookingDataSystem::Booking.customers(@sales_channel_code)
       @export_file = ExternalIntegration::BackgroundExportFile.create(name: "Exportación clientes",
       	                                         description: "Exportación clientes",
       	                                         notification_email: @notification_email,
@@ -47,6 +50,7 @@ module Job
           columns = ["name", "surname", "email", "phone", "address", "city", "state", "zip", "country"]
           columns << "sales_channel"
 	      	csv << columns
+          @customers = customers
 	      	@export_file.update(status: :in_progress)
 	        @customers.each do |customer|
             address = ""
@@ -69,6 +73,12 @@ module Job
       end	
       
     end
+
+    private
+
+    def customers
+      BookingDataSystem::Booking.customers(@created_from, @created_to, @sales_channel_code)
+    end  
 
   end
 end  	

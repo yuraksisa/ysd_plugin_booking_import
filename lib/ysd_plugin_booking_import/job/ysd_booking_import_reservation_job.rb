@@ -7,7 +7,7 @@ module Job
     attr_reader :file_name
 
     def initialize(file_name,
-    	           notify_by_email_on_finish=false, notification_email=nil)
+    	             notify_by_email_on_finish=false, notification_email=nil)
       @file_name = file_name
       @file = file
     end	
@@ -19,16 +19,16 @@ module Job
 
       p "Importing reservations"
       now = DateTime.now
-	  @import_file = ExternalIntegration::BackgroundImportFile.create(name: "Importación reservas",
-  	                                         description: "Importación reservas",
-  	                                         notification_email: @notification_email,
-  	                                         notify_by_email_on_finish: @notify_by_email_on_finish,
-  	                                         created_at: now,
-  	                                         file_path: file_name,
-  	                                         status: :pending,
-  	                                         number_of_records: 0,
-  	                                         number_of_imported_records: 0,
-  	                                         number_of_errors: 0)
+  	  @import_file = ExternalIntegration::BackgroundImportFile.create(name: "Importación reservas",
+    	                                         description: "Importación reservas",
+    	                                         notification_email: @notification_email,
+    	                                         notify_by_email_on_finish: @notify_by_email_on_finish,
+    	                                         created_at: now,
+    	                                         file_path: file_name,
+    	                                         status: :pending,
+    	                                         number_of_records: 0,
+    	                                         number_of_imported_records: 0,
+    	                                         number_of_errors: 0)
 
       processed = 0
       imported_records = 0
@@ -38,12 +38,12 @@ module Job
       begin
           CSV.foreach(file_name, col_sep: ';', headers: true) do |row|
             processed += 1
-	        @import_file.update(number_of_records: processed)      	
-            booking = if row['id'] and !row['id'].nil? and !row['id'].empty?
-            	        BookingDataSystem::Booking.get(row['id'])
-            	      else
-            	        nil
-            	      end      
+  	        @import_file.update(number_of_records: processed)      	
+              booking = if row['id'] and !row['id'].nil? and !row['id'].empty?
+              	        BookingDataSystem::Booking.get(row['id'])
+              	      else
+              	        nil
+              	      end      
             
             if booking.nil?
               booking = BookingDataSystem::Booking.new
