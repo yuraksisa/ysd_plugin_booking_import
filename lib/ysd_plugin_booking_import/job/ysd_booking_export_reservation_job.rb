@@ -50,7 +50,7 @@ module Job
       begin
         CSV.open(@file_path, "wb") do |csv|
           columns = ["received", "date_from", "time_from", "date_to", "time_to", "id", 
-                     "customer", "phone", "email", "status", "products", "total"]
+                     "customer", "phone", "email", "status", "products", "total", "web"]
           columns << "sales_channel"
           csv << columns
           @reservations = reservations
@@ -71,6 +71,7 @@ module Job
                     BookingDataSystem.r18n.t.booking_status[reservation.status.to_s],
                     products.join(' '),
                     reservation.total_cost,
+                    reservation.created_by_manager ? 'N' : 'S',
                     reservation.sales_channel_code
                   ]            
             processed += 1
@@ -90,6 +91,7 @@ module Job
 
           condition = Conditions::JoinComparison.new('$and',
                                                      [Conditions::Comparison.new(:status, '$ne', :cancelled),
+                                                      Conditions::Comparison.new(:statue, '$ne', :pending_confirmation),
                                                       #Conditions::JoinComparison.new('$or',
                                                       #   [Conditions::JoinComparison.new('$and',
                                                       #                                   [Conditions::Comparison.new(:date_from,'$lte', @date_from),
