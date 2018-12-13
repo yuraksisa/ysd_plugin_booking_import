@@ -15,7 +15,7 @@ require(['jquery',
       $('#to').val(created_to);
       $('#created_from').prop('disabled',true);
       $('#created_to').prop('disabled',true);      
-      $('form[name=reservations_export_form]').submit();
+      $('form[name=customers_export_form]').submit();
     }
 
   };
@@ -77,7 +77,7 @@ require(['jquery',
            $('#created_to').datepicker('setDate', '+0');
          }
 
-         $('#export_reservations').bind('click', function() {
+         $('#export_customers').bind('click', function() {
            exportController.searchButtonClick();
          });
 

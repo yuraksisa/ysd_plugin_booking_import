@@ -13,7 +13,7 @@
           <h3 class="block-title">Exportación de clientes de las reservas</h3>
         </div>
         <div class="block-content block-content-narrow">
-          <form name="reservations_import_form" id="reservations_import_form"
+          <form name="customers_export_form" id="customers_export_form"
                 action="/admin/booking/export/customers"
                 method="POST" class="form-horizontal" enctype="multipart/form-data">
 
@@ -50,7 +50,7 @@
             <% end %>
             <div class="form-group">
               <div class="col-md-9">
-                <input id="export_customers" type="submit" class="btn btn-sm btn-primary" value="Exportar"/>
+                <input id="export_customers" type="button" class="btn btn-sm btn-primary" value="Exportar"/>
               </div>
             </div>
           </form>

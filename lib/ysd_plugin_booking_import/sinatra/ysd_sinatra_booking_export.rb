@@ -6,6 +6,8 @@ module Sinatra
 
       def self.registered(app)
       
+        # ---------------------------- Customers ------------------------------  
+
         #
         # Export
         #
@@ -53,6 +55,8 @@ module Sinatra
             end
           end
 
+          p "created_from: #{created_from} -- #{created_to}"
+
           sales_channel = (params[:sales_channel] and !params[:sales_channel].empty?) ? params[:sales_channel] : nil
           ::Delayed::Job.enqueue Job::BookingExportCustomerJob.new(folder, file_name, 'text/csv',
                                                                    created_from, created_to, sales_channel)
@@ -60,6 +64,8 @@ module Sinatra
           redirect '/admin/booking/export/customers'
  
         end 
+
+        # ---------------------------- Reservations ---------------------------
 
         #
         # Export
