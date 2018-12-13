@@ -91,7 +91,7 @@ module Job
 
           condition = Conditions::JoinComparison.new('$and',
                                                      [Conditions::Comparison.new(:status, '$ne', :cancelled),
-                                                      Conditions::Comparison.new(:statue, '$ne', :pending_confirmation),
+                                                      Conditions::Comparison.new(:status, '$ne', :pending_confirmation),
                                                       #Conditions::JoinComparison.new('$or',
                                                       #   [Conditions::JoinComparison.new('$and',
                                                       #                                   [Conditions::Comparison.new(:date_from,'$lte', @date_from),
