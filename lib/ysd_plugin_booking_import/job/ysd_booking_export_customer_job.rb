@@ -6,15 +6,15 @@ module Job
     def initialize(folder,
                    file_name, 
                    content_type,
-                   created_from,
-                   created_to,                   
+                   from,
+                   to,                   
     	             sales_channel_code=nil, 
     	             notify_by_email_on_finish=false, notification_email=nil)
       @folder = folder 
       @file_name = file_name
       @file_path = File.join(@folder, @file_name)
-      @created_from = created_from
-      @created_to = created_to      
+      @from = from
+      @to = to      
       @content_type = content_type
       @sales_channel_code = sales_channel_code
       @notification_email = notification_email
@@ -77,7 +77,7 @@ module Job
     private
 
     def customers
-      BookingDataSystem::Booking.customers(@created_from, @created_to, @sales_channel_code)
+      BookingDataSystem::Booking.customers(@from, @to, @sales_channel_code)
     end  
 
   end
