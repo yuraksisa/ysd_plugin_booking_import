@@ -117,6 +117,17 @@ module Job
                                                      ]
           )
 
+          if @sales_channel_code.nil? or @sales_channel_code.empty?
+            condition = Conditions::JoinComparison.new('$and',
+                                                   [Conditions::JoinComparison.new('$or',
+                                                      [Conditions::Comparison.new(:sales_channel_code, '$eq', ''),
+                                                       Conditions::Comparison.new(:sales_channel_code, '$eq', nil)]),
+                                                    condition])
+          elsif @sales_channel_code != 'all'
+            condition = Conditions::JoinComparison.new('$and',
+                                                   [Conditions::Comparison.new(:sales_channel_code, '$eq', @sales_channel_code),
+                                                    condition])      
+          end  
           @reservations = condition.build_datamapper(BookingDataSystem::Booking).all(:order => [:creation_date])
 
 
